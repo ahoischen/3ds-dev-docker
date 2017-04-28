@@ -56,7 +56,7 @@ created by me. All copyright belongs to their respective owners. None provide
 warranty unless otherwise stated.
 
 | Software | License | Author | Year |
-| --- | --- |
+| --- | --- | --- | --- |
 | bzip2 | [BSD Style License](https://github.com/asimonov-im/bzip2/blob/master/LICENSE) | Julian R Seward | 1996-2010 |
 | citra | [GPLv2](https://github.com/citra-emu/citra/blob/master/license.txt) | | |
 | devkitARM | BSD License | ? | ? |
