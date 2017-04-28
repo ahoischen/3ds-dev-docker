@@ -6,7 +6,7 @@ ENV DEVKITPRO="/opt/devkitPro"
 ENV DEVKITARM="${DEVKITPRO}/devkitARM"
 ENV CITRA_SDMC="${HOME}/.local/share/citra-emu/sdmc"
 
-ADD ["etc/apt/", "/etc/apt/"]
+ADD ["imagefs/", "/"]
 
 # Install:
 RUN sudo apt-get update && sudo apt-get install -y \
