@@ -4,28 +4,29 @@ RUN REPO=http://cdn-fastly.deb.debian.org && \
     echo "deb $REPO/debian jessie main\ndeb $REPO/debian jessie-updates main\ndeb $REPO/debian-security jessie/updates main" > /etc/apt/sources.list && \
     apt-get update --yes && \
     DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
-        automake \
         autogen \
+        automake \
         bash \
-        build-essential \
         bc \
+        build-essential \
         bzip2 \
         ca-certificates \
         curl \
         file \
+        flex \
         git \
         gzip \
-        zip \
         libtool \
         make \
         ncurses-dev \
+        pax \
         pkg-config \
         rsync \
-        flex \
+        ssh \
         tar \
-        pax \
         wget \
-        xz-utils && \
+        xz-utils \
+        zip && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes \
         libgl1-mesa-dri \
         menu \
@@ -37,26 +38,18 @@ RUN REPO=http://cdn-fastly.deb.debian.org && \
         x11-xserver-utils \
         x11vnc \
         xinit \
-        xserver-xorg-video-dummy \
-        xserver-xorg-input-void && \
-    apt-get -y clean
+        xserver-xorg-input-void \
+        xserver-xorg-video-dummy && \
+    apt-get -y clean && \
+    useradd -m -s /bin/bash user && \
+    echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user
 
-COPY etc/skel/.xinitrc /etc/skel/.xinitrc
+ADD ["imagefs/", "/"]
 
-RUN useradd -m -s /bin/bash user
+WORKDIR /home/user
 USER user
-
-RUN cp /etc/skel/.xinitrc /home/user/
-USER root
-RUN echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user
-
-COPY etc /etc
 
 ENV DISPLAY :0
-
-WORKDIR /root
-
-USER user
 ENV HOME="/home/user"
 ENV DEVKITPRO="/opt/devkitPro"
 ENV DEVKITARM="${DEVKITPRO}/devkitARM"
@@ -71,22 +64,14 @@ ARG sftdlib_url="https://github.com/xerpi/sftdlib.git"
 ARG citra_build="citra-linux-20170418-941a3dd"
 ARG citra_url="https://github.com/citra-emu/citra-nightly/releases/download/nightly-111/${citra_build}.tar.xz"
 
-
-ADD ["imagefs/", "/"]
-
 # Install:
-RUN sudo apt-get update && \
+RUN cp /etc/skel/.xinitrc /home/user/ && \
+    sudo apt-get update && \
     DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends --yes \
         # libsdl2 for citra
         libsdl2-2.0-0 \
 
         # Required packages for CircleCI
-        git \
-        ssh \
-        tar \
-        gzip \
-        ca-certificates \
-        zip \
         libstdc++6/testing \
         cmake/testing && \
     sudo apt-get -y clean && \
@@ -163,5 +148,4 @@ RUN curl -L ${citra_url} | sudo tar xpvJC /tmp/ && \
     sudo mv "/tmp/${citra_build}/citra" /usr/bin && \
     sudo rm -rf "/tmp/${citra_build}"
 
-WORKDIR /home/user
 CMD ["/bin/bash"]
