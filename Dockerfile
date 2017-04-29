@@ -21,27 +21,19 @@ RUN apt-get update --yes && apt-get install --no-install-recommends --yes \
   make \
   ncurses-dev \
   pkg-config \
-  libtool \
-  python \
-  python-pip \
   rsync \
-  sed \
-  bison \
   flex \
   tar \
   pax \
-  vim \
   wget \
   xz-utils && \
   apt-get clean --yes
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  git \
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
   libgl1-mesa-dri \
   menu \
   net-tools \
   openbox \
-  python-pip \
   sudo \
   supervisor \
   tint2 \
@@ -49,10 +41,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   x11vnc \
   xinit \
   xserver-xorg-video-dummy \
-  xserver-xorg-input-void \
-  websockify && \
-  rm -f /usr/share/applications/x11vnc.desktop && \
-  pip install supervisor-stdout && \
+  xserver-xorg-input-void && \
   apt-get -y clean
 
 COPY etc/skel/.xinitrc /etc/skel/.xinitrc
