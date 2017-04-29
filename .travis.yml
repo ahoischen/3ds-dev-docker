@@ -4,7 +4,13 @@ services:
     - docker
 
 script:
-    - docker build -t 3ds-dev .
+    - >
+        docker build
+             -t 3ds-dev
+            --build-arg git_commit=$TRAVIS_COMMIT 
+            --build-arg build_data=$(date --rfc-3339=seconds | sed 's/ /T/')
+            --build-arg version_number=${$TRAVIS_TAG:-"git-$TRAVIS_COMMIT"}
+            .
 
 after_success:
     - if [ "$TRAVIS_BRANCH" == "master" ]; then

@@ -54,6 +54,9 @@ ENV HOME="/home/user"
 ENV DEVKITPRO="/opt/devkitPro"
 ENV DEVKITARM="${DEVKITPRO}/devkitARM"
 ENV CITRA_SDMC="${HOME}/.local/share/citra-emu/sdmc"
+
+# These args are not meant to be set from the command line for public builds.
+# They are meant as local variables and should only be changed in this file.
 ARG devkit_arm_url="https://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r46/devkitARM_r46-x86_64-linux.tar.bz2"
 ARG libctru_url="https://github.com/smealum/ctrulib/releases/download/v1.2.1/libctru-1.2.1.tar.bz2"
 ARG portlibs_url="https://github.com/devkitPro/3ds_portlibs.git"
@@ -147,5 +150,20 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
 RUN curl -L ${citra_url} | sudo tar xpvJC /tmp/ && \
     sudo mv "/tmp/${citra_build}/citra" /usr/bin && \
     sudo rm -rf "/tmp/${citra_build}"
+
+ARG git_commit
+ARG build_date
+ARG version_number
+
+LABEL \
+    org.label-schema.schema-version=1.0 \
+    org.label-schema.name="3DS Homebrew Development" \
+    org.label-schema.description="This image provides tools for building and testing 3ds homebrew applications." \
+    org.label-schema.vendor="ahoischen" \
+    org.label-schema.vcs-url="https://github.com/ahoischen/3ds-dev-docker" \
+    org.label-schema.vcs-ref=${git_commit} \
+    org.label-schema.build-date=${build_date}
+    org.label-schema.version=${version_number:-"git-${git_tag}"} \
+    maintainer "ahoischen"
 
 CMD ["/bin/bash"]
