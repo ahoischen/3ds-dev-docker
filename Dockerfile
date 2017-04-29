@@ -1,48 +1,44 @@
 FROM debian:jessie
 
 RUN REPO=http://cdn-fastly.deb.debian.org && \
-  echo "deb $REPO/debian jessie main\ndeb $REPO/debian jessie-updates main\ndeb $REPO/debian-security jessie/updates main" > /etc/apt/sources.list
-
-ARG DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update --yes && apt-get install --no-install-recommends --yes \
-  automake \
-  autogen \
-  bash \
-  build-essential \
-  bc \
-  bzip2 \
-  ca-certificates \
-  curl \
-  file \
-  git \
-  gzip \
-  zip \
-  make \
-  ncurses-dev \
-  pkg-config \
-  rsync \
-  flex \
-  tar \
-  pax \
-  wget \
-  xz-utils && \
-  apt-get clean --yes
-
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --yes \
-  libgl1-mesa-dri \
-  menu \
-  net-tools \
-  openbox \
-  sudo \
-  supervisor \
-  tint2 \
-  x11-xserver-utils \
-  x11vnc \
-  xinit \
-  xserver-xorg-video-dummy \
-  xserver-xorg-input-void && \
-  apt-get -y clean
+    echo "deb $REPO/debian jessie main\ndeb $REPO/debian jessie-updates main\ndeb $REPO/debian-security jessie/updates main" > /etc/apt/sources.list && \
+    apt-get update --yes && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends --yes \
+        automake \
+        autogen \
+        bash \
+        build-essential \
+        bc \
+        bzip2 \
+        ca-certificates \
+        curl \
+        file \
+        git \
+        gzip \
+        zip \
+        make \
+        ncurses-dev \
+        pkg-config \
+        rsync \
+        flex \
+        tar \
+        pax \
+        wget \
+        xz-utils && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --yes \
+        libgl1-mesa-dri \
+        menu \
+        net-tools \
+        openbox \
+        sudo \
+        supervisor \
+        tint2 \
+        x11-xserver-utils \
+        x11vnc \
+        xinit \
+        xserver-xorg-video-dummy \
+        xserver-xorg-input-void && \
+    apt-get -y clean
 
 COPY etc/skel/.xinitrc /etc/skel/.xinitrc
 
@@ -52,15 +48,6 @@ USER user
 RUN cp /etc/skel/.xinitrc /home/user/
 USER root
 RUN echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user
-
-
-RUN git clone https://github.com/kanaka/noVNC.git /opt/noVNC && \
-  cd /opt/noVNC && \
-  git checkout 6a90803feb124791960e3962e328aa3cfb729aeb && \
-  ln -s vnc_auto.html index.html
-
-# noVNC (http server) is on 6080, and the VNC server is on 5900
-EXPOSE 6080 5900
 
 COPY etc /etc
 COPY usr /usr
