@@ -164,6 +164,6 @@ LABEL \
     org.label-schema.vcs-ref=${git_commit} \
     org.label-schema.build-date=${build_date} \
     org.label-schema.version=${version_number:-"git-${git_tag}"} \
-    maintainer "ahoischen"
+    maintainer="ahoischen"
 
 CMD ["/bin/bash"]
