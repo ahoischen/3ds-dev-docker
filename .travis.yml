@@ -1,0 +1,14 @@
+sudo: required
+
+services:
+    - docker
+
+script:
+    - docker build -t 3ds-dev .
+
+after_success:
+    - if [ "$TRAVIS_BRANCH" == "master" ]; then
+        docker tag 3ds-dev ahoischen/3ds-dev:latest;
+        docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+        docker push ahoischen/3ds-dev:latest;
+      fi
