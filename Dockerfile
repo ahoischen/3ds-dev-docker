@@ -162,7 +162,7 @@ LABEL \
     org.label-schema.vendor="ahoischen" \
     org.label-schema.vcs-url="https://github.com/ahoischen/3ds-dev-docker" \
     org.label-schema.vcs-ref=${git_commit} \
-    org.label-schema.build-date=${build_date}
+    org.label-schema.build-date=${build_date} \
     org.label-schema.version=${version_number:-"git-${git_tag}"} \
     maintainer "ahoischen"
 
