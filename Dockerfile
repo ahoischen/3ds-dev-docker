@@ -35,23 +35,6 @@ RUN apt-get update --yes && apt-get install --no-install-recommends --yes \
   xz-utils && \
   apt-get clean --yes
 
-ENV GOSU_VERSION 1.10
-RUN set -x \
-        && apt-get update && apt-get install -y --no-install-recommends ca-certificates wget && rm -rf /var/lib/apt/lists/* \
-        && dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
-        && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
-        && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" \
-        && export GNUPGHOME="$(mktemp -d)" \
-        && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-        && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
-        && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
-        && chmod +x /usr/local/bin/gosu \
-        && gosu nobody true
-
-MAINTAINER Matt McCormick <matt.mccormick@kitware.com>
-
-ENV DEFAULT_DOCKCROSS_IMAGE thewtex/opengl
-
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
   git \
   libgl1-mesa-dri \
@@ -96,21 +79,6 @@ COPY usr /usr
 ENV DISPLAY :0
 
 WORKDIR /root
-
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
-
-# Build-time metadata as defined at http://label-schema.org
-ARG BUILD_DATE
-ARG IMAGE
-ARG VCS_REF
-ARG VCS_URL
-LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.name=$IMAGE \
-      org.label-schema.description="An image based on debian/jessie containing an X_Window_System which supports rendering graphical applications, including OpenGL apps" \
-      org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url=$VCS_URL \
-      org.label-schema.schema-version="1.0"
-# thewtex/opengl provides opengl functionality, which citra depends on.
 
 USER user
 ENV HOME="/home/user"
