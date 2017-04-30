@@ -99,25 +99,20 @@ script to hang.
 
 # Versioning
 
-This project is versioned according to 
-[Semantic Versioning](http://semver.org/spec/v2.0.0.html). As the project is
-currently below version 1.0.0 the public API has not been established. However,
-initial drafts for it outline the following specifications:
+This project attempts to version similarly to 
+[Semantic Versioning](http://semver.org/spec/v2.0.0.html), however, most
+dependencies don't have fixed versions. Because of this there are probably
+breaking changes in minor and patch updates. The only thing that can be
+guaranteed is that if any of the following changes the version shall be
+increased accordingly.
 
 - Packages explicitly provided by this image are part of the public API. 
-Currently this includes libctru, devkitARM, all portlibs and citra.
+Currently this includes libctru, devkitARM, all portlibs which compile and 
+citra.
 
-- Packages explicitly provided by this image which use SemVer are guaranteed
-to be held at their current major version. The minor and path version may be
-incremented at will.
-
-- Packages explicitly provided by this image which do not use SemVer cannot be
-guaranteed to not break. When a breaking change within a package becomes known
-the major version shall be incremented. This is sadly not reliable.
-
-- The guarantee that there will be no folder ~/work is part of the public API.
-This folder is intended to be used as a working directory for builds and CI and,
-therefore, cannot include any files as they may conflict with those of the
+- The guarantee that there will be an empty folder ~/work is part of the public
+API. This folder is intended to be used as a working directory for builds and CI
+and, therefore, cannot include any files as they may conflict with those of the
 project.
 
 # Contributing
