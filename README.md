@@ -2,9 +2,100 @@
 A docker image for 3ds development and testing
 
 This image aims to provide a preinstalled 3ds development environment including DevkitARM, ctrulib, 
-all portlibs(except libmad due to licenses) and a working citra emulator.
+all portlibs and a working citra emulator.
 
 This project is not in any way affiliated with nintendo.
+
+# Usage
+
+As a docker image this project requires docker to be installed. While it's very
+useful to know about how docker works, this guide assumes you've never heard of
+it.
+
+## Running interactively
+
+If you intend to build or test a project manually you should choose this way.
+You will want to run the image interactively (`-i`), in a pseudo-tty(`-t`) and
+remove the container when you're done (`--rm`). You can also specify a version
+of the image you want to use. If you omit this tag you'll get the `latest`
+version which is up to date with the current master. The following command will
+download the image (once), start a container based on it, open up a bash prompt
+for you and remove the *container* once you are done:
+
+```Bash
+docker run --rm -it ahoischen/3ds-dev[:tag]
+```
+
+To use version 1.0.0 of the image simply insert the tag `1.0.0`:
+
+```Bash
+docker run --rm -it ahoischen/3ds-dev:1.0.0
+```
+
+## Running in scripts
+
+If you intend to automate builds or tests this you will need a slightly more
+sophisticated approach. The first step of the process is to start a container
+from this image, which can then run your commands at a later time. This means
+running it in detached mode (`-d`) and specifying a command that keeps the
+container from exiting as bash would do. One possible command is
+`tail -f /dev/null`. For automatic testing it is also advised to fix your
+version number to avoid accidental breakage. Since you intend to use the
+container in later commands you shold give it a name. The full command
+is as follows:
+
+
+```Bash
+docker run -d --name container_name ahoischen/3ds-dev[:tag] tail -f /dev/null
+```
+
+You now have a container ready to execute all the commands you want. Each
+command can now be executed via the following:
+
+```Bash
+docker exec container_name COMMAND [ARG...]
+```
+
+If you intend to run a script you will need to run it in its own shell:
+
+```Bash
+docker exec container_name bash -c "SCRIPT" [ARG...]
+```
+
+The easiest way to run a script is of course to include it in your project and
+run it as a command (`./myscript`).
+
+## Using your project
+
+While it is possible to use git inside it that practice is highly discouraged
+since it requires all changes to be already commited and available on a server.
+Instead, the preferred method is to mount the source directory as a volume.
+This is done by adding the `-v YOURSOURCEDIR:/home/user/work` to the
+`docker run` arguments before specifying the image. Please note that 
+`YOURSOURCEDIR` cannot be `.`; use `$PWD` instead. Example:
+
+```Bash
+docker run --rm -it -v $PWD:/home/user/work ahoischen/3ds-dev
+```
+
+## The environment
+
+You will be running as the user `user`. You have passwordless `sudo` access.
+Your working directory will be `/home/user/work`. `$DEVKITPRO` and `ARM` are
+set for `user`; if you need to `make install` remember to use `sudo -E` to
+preserve environment variables. 
+
+***TODO: INCLUDE LIST OF PROGRAMS***
+
+## Using citra
+
+Citra can be very useful for running tests. To do so you must first
+run `sudo /usr/bin/supervisord -c /etc/supervisor/supervisord.conf &` to start a
+dummy xserver. You should wait around 3 seconds for it to come online before
+starting citra by running `citra your_file`. Please make sure that the built
+application does not require any inputs to exit, since that would cause the
+script to hang.
+
 
 # Versioning
 
