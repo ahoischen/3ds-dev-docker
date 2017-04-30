@@ -17,4 +17,8 @@ after_success:
         docker tag 3ds-dev ahoischen/3ds-dev:latest;
         docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
         docker push ahoischen/3ds-dev:latest;
+      elif [ "$TRAVIS_TAG" ]; then
+        docker tag 3ds-dev "ahoischen/3ds-dev:$TRAVIS_TAG";
+        docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+        docker push "ahoischen/3ds-dev:$TRAVIS_TAG";
       fi
