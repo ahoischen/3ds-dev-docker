@@ -46,7 +46,7 @@ RUN REPO=http://cdn-fastly.deb.debian.org && \
 
 ADD ["imagefs/", "/"]
 
-WORKDIR /home/user
+WORKDIR /home/user/work
 USER user
 
 ENV DISPLAY :0
