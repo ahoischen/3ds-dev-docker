@@ -68,6 +68,7 @@ ARG sfillib_url="https://github.com/xerpi/sfillib.git"
 ARG sftdlib_url="https://github.com/xerpi/sftdlib.git"
 ARG citra_build="citra-linux-20170629-686fde7"
 ARG citra_url="https://github.com/citra-emu/citra-nightly/releases/download/nightly-111/${citra_build}.tar.xz"
+ARG makerom_url="https://github.com/profi200/Project_CTR/releases/download/0.15/makerom_015_ctrtool.zip"
 
 # Install:
 RUN cp /etc/skel/.xinitrc /home/user/ && \
@@ -93,6 +94,12 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
     # Libctru's archive has all files directly at it's root, so it'l be extracted into the libctru folder.
     curl -L ${libctru_url} | \
     sudo tar xpvj -C "${DEVKITPRO}/libctru" && \
+
+    # Download makerom and ctrtool.
+    curl -o /tmp/makerom.zip -L "${makerom_url}" && \
+    unzip /tmp/makerom.zip -d /tmp/makerom && \
+    sudo cp /tmp/makerom/Linux_x86_64/* /usr/bin && \
+    rm -r /tmp/makerom* && \
 
     # Currently libxml2 is not included. See devkitPro/3ds_portlibs#15 for details.
     # Currently tremor isn't installed, because it threw some error. I might add it
