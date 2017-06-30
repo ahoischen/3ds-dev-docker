@@ -87,7 +87,8 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
 
     # r46 requies a patch to work with gdb on latest luma.
     curl -o /tmp/devkitARMgdb.7z -L ${devkit_arm_gdb_url} && \
-    7z e /tmp/devkitARMgdb.7z -o"${DEVKITPRO}/devkitARM"
+    7z e /tmp/devkitARMgdb.7z -o"${DEVKITPRO}/devkitARM" && \
+    rm /tmp/devkitARMgdb.7z && \
 
     # Libctru's archive has all files directly at it's root, so it'l be extracted into the libctru folder.
     curl -L ${libctru_url} | \
