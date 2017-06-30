@@ -1,4 +1,6 @@
 # 3ds-dev-docker
+[![](https://images.microbadger.com/badges/image/ahoischen/3ds-dev.svg)](https://microbadger.com/images/ahoischen/3ds-dev "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/ahoischen/3ds-dev.svg)](https://microbadger.com/images/ahoischen/3ds-dev "Get your own version badge on microbadger.com") [![Build Status](https://travis-ci.org/ahoischen/3ds-dev-docker.svg?branch=master)](https://travis-ci.org/ahoischen/3ds-dev-docker)
+
 A docker image for 3ds development and testing
 
 This image aims to provide a preinstalled 3ds development environment including DevkitARM, ctrulib, 
