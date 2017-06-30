@@ -66,7 +66,7 @@ ARG citro3d_url="https://github.com/fincs/citro3d.git"
 ARG sf2dlib_url="https://github.com/xerpi/sf2dlib.git"
 ARG sfillib_url="https://github.com/xerpi/sfillib.git"
 ARG sftdlib_url="https://github.com/xerpi/sftdlib.git"
-ARG citra_build="citra-linux-20170418-941a3dd"
+ARG citra_build="citra-linux-20170629-686fde7"
 ARG citra_url="https://github.com/citra-emu/citra-nightly/releases/download/nightly-111/${citra_build}.tar.xz"
 
 # Install:
