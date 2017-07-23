@@ -61,7 +61,7 @@ ENV CITRA_SDMC="${HOME}/.local/share/citra-emu/sdmc"
 ARG devkit_arm_url="https://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r47/devkitARM_r47-x86_64-linux.tar.bz2"
 ARG libctru_url="https://github.com/smealum/ctrulib/releases/download/v1.2.1/libctru-1.2.1.tar.bz2"
 ARG portlibs_url="https://github.com/devkitPro/3ds_portlibs.git"
-ARG citro3d_url="https://github.com/fincs/citro3d.git"
+ARG citro3d_url="https://downloads.sourceforge.net/project/devkitpro/citro3d/1.3.0/citro3d-1.3.0.tar.bz2"
 ARG sf2dlib_url="https://github.com/xerpi/sf2dlib.git"
 ARG sfillib_url="https://github.com/xerpi/sfillib.git"
 ARG sftdlib_url="https://github.com/xerpi/sftdlib.git"
@@ -115,16 +115,14 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
         libogg \
         libpng \
         libxmp-lite \
-        mbedtls \
-        sqlite \
+        mbedtls-apache \
         tinyxml2 \
         xz \
         install && \
     sudo rm -rf /tmp/3ds_portlibs && \
 
-    git -C /tmp/ clone "${citro3d_url}" && \
-    sudo -E make -C /tmp/citro3d install && \
-    sudo rm -rf /tmp/citro3d && \
+    curl -L ${citro3d_url} | \
+    sudo tar xpvj -C "${DEVKITPRO}/libctru" && \
 
     git -C /tmp/ clone "${sf2dlib_url}" && \
     sudo -E make -C /tmp/sf2dlib/libsf2d install && \
