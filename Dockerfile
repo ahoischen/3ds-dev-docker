@@ -65,8 +65,8 @@ ARG citro3d_url="https://downloads.sourceforge.net/project/devkitpro/citro3d/1.3
 ARG sf2dlib_url="https://github.com/xerpi/sf2dlib.git"
 ARG sfillib_url="https://github.com/xerpi/sfillib.git"
 ARG sftdlib_url="https://github.com/xerpi/sftdlib.git"
-ARG citra_build="citra-linux-20170701-22e7402"
-ARG citra_tag="untagged-6c695c9c0ece2e9e3cd9"
+ARG citra_build="citra-linux-20170722-c6a2e51"
+ARG citra_tag="untagged-2795bd3a124cc4c35c94"
 ARG citra_url="https://github.com/citra-emu/citra-nightly/releases/download/${citra_tag}/${citra_build}.tar.xz"
 ARG makerom_url="https://github.com/profi200/Project_CTR/releases/download/0.15/makerom_015_ctrtool.zip"
 
