@@ -66,8 +66,9 @@ ARG citro3d_url="https://github.com/fincs/citro3d.git"
 ARG sf2dlib_url="https://github.com/xerpi/sf2dlib.git"
 ARG sfillib_url="https://github.com/xerpi/sfillib.git"
 ARG sftdlib_url="https://github.com/xerpi/sftdlib.git"
-ARG citra_build="citra-linux-20170629-686fde7"
-ARG citra_url="https://github.com/citra-emu/citra-nightly/releases/download/nightly-111/${citra_build}.tar.xz"
+ARG citra_build="citra-linux-20170701-22e7402"
+ARG citra_tag="untagged-6c695c9c0ece2e9e3cd9"
+ARG citra_url="https://github.com/citra-emu/citra-nightly/releases/download/${citra_tag}/${citra_build}.tar.xz"
 ARG makerom_url="https://github.com/profi200/Project_CTR/releases/download/0.15/makerom_015_ctrtool.zip"
 
 # Install:
@@ -79,7 +80,8 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
 
         # Required packages for CircleCI
         libstdc++6/testing \
-        cmake/testing && \
+        cmake/testing \
+        unzip && \
     sudo apt-get -y clean && \
 
     # The devkitARM archive contains the folder, so it has to be extracted in $DEVKITPRO, not ARM.
@@ -88,7 +90,7 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
 
     # r46 requies a patch to work with gdb on latest luma.
     curl -o /tmp/devkitARMgdb.7z -L ${devkit_arm_gdb_url} && \
-    7z e /tmp/devkitARMgdb.7z -o"${DEVKITPRO}/devkitARM" && \
+    7zr e /tmp/devkitARMgdb.7z -o"${DEVKITPRO}/devkitARM" && \
     rm /tmp/devkitARMgdb.7z && \
 
     # Libctru's archive has all files directly at it's root, so it'l be extracted into the libctru folder.
