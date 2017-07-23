@@ -58,8 +58,7 @@ ENV CITRA_SDMC="${HOME}/.local/share/citra-emu/sdmc"
 
 # These args are not meant to be set from the command line for public builds.
 # They are meant as local variables and should only be changed in this file.
-ARG devkit_arm_gdb_url="https://downloads.sourceforge.net/project/devkitpro/devkitARM/3ds-gdb-8.0-x86_64-linux.7z"
-ARG devkit_arm_url="https://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r46/devkitARM_r46-x86_64-linux.tar.bz2"
+ARG devkit_arm_url="https://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r47/devkitARM_r47-x86_64-linux.tar.bz2"
 ARG libctru_url="https://github.com/smealum/ctrulib/releases/download/v1.2.1/libctru-1.2.1.tar.bz2"
 ARG portlibs_url="https://github.com/devkitPro/3ds_portlibs.git"
 ARG citro3d_url="https://github.com/fincs/citro3d.git"
@@ -87,11 +86,6 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
     # The devkitARM archive contains the folder, so it has to be extracted in $DEVKITPRO, not ARM.
     sudo mkdir -p /tmp/citra /usr/bin/ "${DEVKITPRO}/libctru" && \
     curl -L ${devkit_arm_url} | sudo tar xpjC "${DEVKITPRO}" && \
-
-    # r46 requies a patch to work with gdb on latest luma.
-    curl -o /tmp/devkitARMgdb.7z -L ${devkit_arm_gdb_url} && \
-    7zr e /tmp/devkitARMgdb.7z -o"${DEVKITPRO}/devkitARM" && \
-    rm /tmp/devkitARMgdb.7z && \
 
     # Libctru's archive has all files directly at it's root, so it'l be extracted into the libctru folder.
     curl -L ${libctru_url} | \
