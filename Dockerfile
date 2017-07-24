@@ -52,8 +52,8 @@ USER user
 ENV DISPLAY=":0" \
     HOME="/home/user" \
     DEVKITPRO="/opt/devkitPro" \
-    DEVKITARM="${DEVKITPRO}/devkitARM" \
-    CITRA_SDMC="${HOME}/.local/share/citra-emu/sdmc"
+    DEVKITARM="/opt/devkitPro/devkitARM" \
+    CITRA_SDMC="/home/user/.local/share/citra-emu/sdmc"
 
 # These args are not meant to be set from the command line for public builds.
 # They are meant as local variables and should only be changed in this file.
