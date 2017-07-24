@@ -28,10 +28,10 @@ for you and remove the *container* once you are done:
 docker run --rm -it ahoischen/3ds-dev[:tag]
 ```
 
-To use version 1.0.0 of the image simply insert the tag `1.0.0`:
+To use version 1.0.0 of the image simply insert the tag `v1.0.0`:
 
 ```Bash
-docker run --rm -it ahoischen/3ds-dev:1.0.0
+docker run --rm -it ahoischen/3ds-dev:v1.0.0
 ```
 
 ## Running in scripts
@@ -54,13 +54,13 @@ docker run -d --name container_name ahoischen/3ds-dev[:tag] tail -f /dev/null
 You now have a container ready to execute all the commands you want. Each
 command can now be executed via the following:
 
-```Bash
+```
 docker exec container_name COMMAND [ARG...]
 ```
 
 If you intend to run a script you will need to run it in its own shell:
 
-```Bash
+```
 docker exec container_name bash -c "SCRIPT" [ARG...]
 ```
 
@@ -76,7 +76,7 @@ This is done by adding the `-v YOURSOURCEDIR:/home/user/work` to the
 `docker run` arguments before specifying the image. Please note that 
 `YOURSOURCEDIR` cannot be `.`; use `$PWD` instead. Example:
 
-```Bash
+```
 docker run --rm -it -v $PWD:/home/user/work ahoischen/3ds-dev
 ```
 
@@ -86,8 +86,6 @@ You will be running as the user `user`. You have passwordless `sudo` access.
 Your working directory will be `/home/user/work`. `$DEVKITPRO` and `ARM` are
 set for `user`; if you need to `make install` remember to use `sudo -E` to
 preserve environment variables. 
-
-***TODO: INCLUDE LIST OF PROGRAMS***
 
 ## Using citra
 
@@ -125,7 +123,7 @@ includes a [CONTRIBUTING](./CONTRIBUTING.md) file which outlines the details of 
 # Licenses
 This image itself is licensed under the [GPLv3+](./LICENSE) to allow it to
 include as many licenses as possible. The projects built with this image 
-**do not need to be Licensed under the GPLv3+**. Your project's license depends
+**do not need to be licensed under the GPLv3+**. Your project's license depends
 on the licenses of the projects you use. This software is provided without
 warranty and so are all packages within it, unless otherwise stated by the
 respective owner.
