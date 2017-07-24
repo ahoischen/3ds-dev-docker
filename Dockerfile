@@ -49,11 +49,11 @@ ADD ["imagefs/", "/"]
 
 USER user
 
-ENV DISPLAY :0
-ENV HOME="/home/user"
-ENV DEVKITPRO="/opt/devkitPro"
-ENV DEVKITARM="${DEVKITPRO}/devkitARM"
-ENV CITRA_SDMC="${HOME}/.local/share/citra-emu/sdmc"
+ENV DISPLAY=":0" \
+    HOME="/home/user" \
+    DEVKITPRO="/opt/devkitPro" \
+    DEVKITARM="${DEVKITPRO}/devkitARM" \
+    CITRA_SDMC="${HOME}/.local/share/citra-emu/sdmc"
 
 # These args are not meant to be set from the command line for public builds.
 # They are meant as local variables and should only be changed in this file.
