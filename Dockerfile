@@ -47,7 +47,6 @@ RUN REPO=http://cdn-fastly.deb.debian.org && \
 
 ADD ["imagefs/", "/"]
 
-WORKDIR /home/user/work
 USER user
 
 ENV DISPLAY :0
@@ -157,7 +156,12 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
 # features are frequently added.
 RUN curl -L ${citra_url} | sudo tar xpvJC /tmp/ && \
     sudo mv "/tmp/${citra_build}/citra" /usr/bin && \
-    sudo rm -rf "/tmp/${citra_build}"
+    sudo rm -rf "/tmp/${citra_build}" && \
+
+    # Create the working directory. WORKDIR would make it owned by root.
+    mkdir ~/work
+
+WORKDIR /home/user/work
 
 ARG git_commit
 ARG build_date
