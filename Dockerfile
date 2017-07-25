@@ -64,9 +64,6 @@ ARG citro3d_url="https://downloads.sourceforge.net/project/devkitpro/citro3d/1.3
 ARG sf2dlib_url="https://github.com/xerpi/sf2dlib.git"
 ARG sfillib_url="https://github.com/xerpi/sfillib.git"
 ARG sftdlib_url="https://github.com/xerpi/sftdlib.git"
-ARG citra_build="citra-linux-20170724-f2f3910"
-ARG citra_tag="untagged-2795bd3a124cc4c35c94"
-ARG citra_url="https://github.com/citra-emu/citra-nightly/releases/download/${citra_tag}/${citra_build}.tar.xz"
 ARG makerom_url="https://github.com/profi200/Project_CTR/releases/download/0.15/makerom_015_ctrtool.zip"
 
 # Install:
@@ -154,6 +151,10 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
 # about `citra`, so we'll just copy it into /usr/bin and remove the rest.
 # This should stay a separate layer, since citra has nightly builds and new
 # features are frequently added.
+ARG citra_build="citra-linux-20170724-f2f3910"
+ARG citra_tag="untagged-3441a5634554e85a0b51"
+ARG citra_url="https://github.com/citra-emu/citra-nightly/releases/download/${citra_tag}/${citra_build}.tar.xz"
+
 RUN curl -L ${citra_url} | sudo tar xpvJC /tmp/ && \
     sudo mv "/tmp/${citra_build}/citra" /usr/bin && \
     sudo rm -rf "/tmp/${citra_build}" && \
