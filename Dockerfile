@@ -17,6 +17,7 @@ RUN REPO=http://cdn-fastly.deb.debian.org && \
         git \
         gzip \
         libtool \
+        libcurl4-gnutls-dev \
         make \
         ncurses-dev \
         pax \
@@ -71,7 +72,7 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
     sudo apt-get update && \
     DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends --yes \
         # libsdl2 for citra
-        libsdl2-2.0-0 \
+        libsdl2-2.0-0=2.0.2+dfsg1-6 \
 
         # Required packages for CircleCI
         libstdc++6/testing \
