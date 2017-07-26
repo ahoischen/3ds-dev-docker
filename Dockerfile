@@ -98,7 +98,7 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
     # Currently tremor isn't installed, because it threw some error. I might add it
     # back in later.
     git -C /tmp/ clone "${portlibs_url}" && \
-    sudo -E make -C /tmp/3ds_portlibs \
+    sudo -E make -C /tmp/3ds-portlibs \
         zlib \
         install-zlib \
         bzip2 \
@@ -116,7 +116,7 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
         tinyxml2 \
         xz \
         install && \
-    sudo rm -rf /tmp/3ds_portlibs && \
+    sudo rm -rf /tmp/3ds-portlibs && \
 
     curl -L ${citro3d_url} | \
     sudo tar xpvj -C "${DEVKITPRO}/libctru" && \
