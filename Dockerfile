@@ -60,7 +60,7 @@ ENV DISPLAY=":0" \
 # They are meant as local variables and should only be changed in this file.
 ARG devkit_arm_url="https://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r47/devkitARM_r47-x86_64-linux.tar.bz2"
 ARG libctru_url="https://downloads.sourceforge.net/project/devkitpro/libctru/1.3.0/libctru-1.3.0.tar.bz2"
-ARG portlibs_url="https://github.com/devkitPro/3ds_portlibs.git"
+ARG portlibs_url="https://github.com/ahoischen/3ds-portlibs.git"
 ARG citro3d_url="https://downloads.sourceforge.net/project/devkitpro/citro3d/1.3.0/citro3d-1.3.0.tar.bz2"
 ARG sf2dlib_url="https://github.com/xerpi/sf2dlib.git"
 ARG sfillib_url="https://github.com/xerpi/sfillib.git"
