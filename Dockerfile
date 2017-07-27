@@ -50,10 +50,10 @@ RUN REPO=http://cdn-fastly.deb.debian.org && \
     true;
 
 
-ADD ["imagefs/", "/"]
+COPY ["imagefs/", "/"]
 
 # Provide project's source
-ADD [".", "/usr/share/doc/3ds-dev/"]
+COPY [".", "/usr/share/doc/3ds-dev/"]
 
 USER user
 
