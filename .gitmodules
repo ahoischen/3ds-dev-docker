@@ -1,0 +1,24 @@
+[submodule "submodules/sf2dlib"]
+	path = submodules/sf2dlib
+	url = https://github.com/xerpi/sf2dlib.git
+[submodule "submodules/sfillib"]
+	path = submodules/sfillib
+	url = https://github.com/xerpi/sfillib.git
+[submodule "submodules/sftdlib"]
+	path = submodules/sftdlib
+	url = https://github.com/xerpi/sftdlib.git
+[submodule "submodules/3ds-portlibs"]
+	path = submodules/3ds-portlibs
+	url = https://github.com/ahoischen/3ds-portlibs.git
+[submodule "submodules/Project_CTR"]
+	path = submodules/Project_CTR
+	url = https://github.com/profi200/Project_CTR.git
+[submodule "submodules/bannertool"]
+	path = submodules/bannertool
+	url = https://github.com/Steveice10/bannertool.git
+[submodule "submodules/ctrulib"]
+	path = submodules/ctrulib
+	url = https://github.com/smealum/ctrulib
+[submodule "submodules/citra"]
+	path = submodules/citra
+	url = https://github.com/citra-emu/citra.git
