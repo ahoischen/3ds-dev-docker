@@ -44,9 +44,16 @@ RUN REPO=http://cdn-fastly.deb.debian.org && \
         xserver-xorg-video-dummy && \
     apt-get -y clean && \
     useradd -m -s /bin/bash user && \
-    echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user
+    echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user && \
+    echo '[ ! -z "$TERM" -a -r /etc/motd ] && cat /etc/motd && cat /etc/motd.3ds-dev' > /etc/bash.rc && \
+
+    true;
+
 
 ADD ["imagefs/", "/"]
+
+# Provide project's source
+ADD [".", "/usr/share/doc/3ds-dev/"]
 
 USER user
 

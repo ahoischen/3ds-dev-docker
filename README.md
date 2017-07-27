@@ -3,10 +3,17 @@
 
 A docker image for 3ds development and testing
 
-This image aims to provide a preinstalled 3ds development environment including DevkitARM, ctrulib, 
-all portlibs and a working citra emulator.
+This image aims to provide a preinstalled 3ds development environment including
+essential build tools and an emulator to test binaries.
 
-This project is not in any way affiliated with nintendo.
+# Important
+
+This project is not in any way affiliated with Nintendo or any of the developers
+of included software or packages unless otherwise stated.
+
+Some of the bugs in included software might be caused by their inclusion in this
+project. Please create an issue here first to avoid bothering innocent
+developers.
 
 # Usage
 
@@ -18,14 +25,13 @@ it.
 
 If you intend to build or test a project manually you should choose this way.
 You will want to run the image interactively (`-i`), in a pseudo-tty(`-t`) and
-remove the container when you're done (`--rm`). You can also specify a version
-of the image you want to use. If you omit this tag you'll get the `latest`
-version which is up to date with the current master. The following command will
-download the image (once), start a container based on it, open up a bash prompt
-for you and remove the *container* once you are done:
+remove the container when you're done (`--rm`). You also specify a version
+of the image you want to use. The following command will download the image
+(once), start a container based on it, open up a bash prompt for you and remove
+the *container* once you are done:
 
 ```Bash
-docker run --rm -it ahoischen/3ds-dev[:tag]
+docker run --rm -it ahoischen/3ds-dev:tag
 ```
 
 To use version 1.0.0 of the image simply insert the tag `v1.0.0`:
@@ -41,14 +47,12 @@ sophisticated approach. The first step of the process is to start a container
 from this image, which can then run your commands at a later time. This means
 running it in detached mode (`-d`) and specifying a command that keeps the
 container from exiting as bash would do. One possible command is
-`tail -f /dev/null`. For automatic testing it is also advised to fix your
-version number to avoid accidental breakage. Since you intend to use the
-container in later commands you shold give it a name. The full command
-is as follows:
+`tail -f /dev/null`. Since you intend to use the container in later commands
+you shold give it a name. The full command is as follows:
 
 
-```Bash
-docker run -d --name container_name ahoischen/3ds-dev[:tag] tail -f /dev/null
+```
+docker run -d --name container_name ahoischen/3ds-dev:tag tail -f /dev/null
 ```
 
 You now have a container ready to execute all the commands you want. Each
@@ -69,11 +73,11 @@ run it as a command (`./myscript`).
 
 ## Using your project
 
-While it is possible to use git inside it that practice is highly discouraged
-since it requires all changes to be already commited and available on a server.
-Instead, the preferred method is to mount the source directory as a volume.
-This is done by adding the `-v YOURSOURCEDIR:/home/user/work` to the
-`docker run` arguments before specifying the image. Please note that 
+While it is possible to use git to pull the project that practice has the
+disadvantage of requiring all changes to be already commited and available
+on a server. Instead, the preferred method is to mount the source directory as
+a volume. This is done by adding the argument `-v YOURSOURCEDIR:/home/user/work`
+to the `docker run` commands before specifying the image. Please note that
 `YOURSOURCEDIR` cannot be `.`; use `$PWD` instead. Example:
 
 ```
@@ -83,19 +87,17 @@ docker run --rm -it -v $PWD:/home/user/work ahoischen/3ds-dev
 ## The environment
 
 You will be running as the user `user`. You have passwordless `sudo` access.
-Your working directory will be `/home/user/work`. `$DEVKITPRO` and `ARM` are
-set for `user`; if you need to `make install` remember to use `sudo -E` to
-preserve environment variables. 
+Your working directory will be `/home/user/work`. The environment variables
+`DEVKITPRO` and `DEVKITARM` are set for `user`; if you need to `make install` 
+remember to use `sudo -E` to preserve environment variables. 
 
-## Using citra
+## Using the emulator
 
-Citra can be very useful for running tests. To do so you must first
-run `sudo /usr/bin/supervisord -c /etc/supervisor/supervisord.conf &` to start a
-dummy xserver. You should wait around 3 seconds for it to come online before
-starting citra by running `citra your_file`. Please make sure that the built
-application does not require any inputs to exit, since that would cause the
-script to hang.
-
+Emulation can be very useful for running tests. To do so you must first
+run `startdisplay` to start a dummy xserver. You can then start the emluator
+by running `citra your_file`. Please make sure that the built application does
+not require any inputs to exit, since that would cause the script to hang. The
+exit code is likely to be non-zero even if all tests succeeded.
 
 # Versioning
 
@@ -120,47 +122,54 @@ project.
 Contributions in form of issues and pull requests are encouraged. This project
 includes a [CONTRIBUTING](./CONTRIBUTING.md) file which outlines the details of doing so.
 
-# Licenses
-This image itself is licensed under the [GPLv3+](./LICENSE) to allow it to
-include as many licenses as possible. The projects built with this image 
-**do not need to be licensed under the GPLv3+**. Your project's license depends
-on the licenses of the projects you use. This software is provided without
-warranty and so are all packages within it, unless otherwise stated by the
-respective owner.
+# Licenses & Included works
 
-The precise license terms are available within this project's
-[LICENSE file](./LICENSE).
+This image's source is licensed under the [GPLv3+](./LICENSE) to allow it to
+include as many licenses as possible. The licenses of included packages may
+differ. Licenses for included software are partially available within the image
+and in this document. 
+The projects built with this image  **do not necessarily need to be licensed
+under the GPLv3+**. Your project's license depends on the licenses of the
+projects you use. This software is provided without warranty and so are all
+packages aggregated within it, unless otherwise stated by the respective owner.
+This isn't legal advice; I am not a lawyer.
 
-This image is based on thewtex/opengl which is licensed under the 
-[Apache-2.0 License](https://github.com/thewtex/docker-opengl/blob/master/LICENSE)
-and dockcross/dockcross which is licensed under the
-[MIT License](https://github.com/dockcross/dockcross/blob/master/LICENSE).
-The following list aims to describe the licenses of all included
-software. It is not comprehensive due to the number of packages installed.
-Any contributions to it are greatly appreciated. None of these packages were
-created by me. All copyright belongs to their respective owners. None provide
-warranty unless otherwise stated.
+This image is based on [thewtex/opengl](https://github.com/thewtex/docker-opengl)
+which is licensed under the 
+[Apache-2.0 License](https://github.com/thewtex/docker-opengl/blob/master/LICENSE),
+[dockcross/dockcross](https://github.com/dockcross/dockcross) which is licensed under the
+[MIT License](https://github.com/dockcross/dockcross/blob/master/LICENSE) and
+[debian:jessie](https://hub.docker.com/_/debian/).
 
-| Software | License | Author | Year |
-| --- | --- | --- | --- |
-| bzip2 | [BSD Style License](https://github.com/asimonov-im/bzip2/blob/master/LICENSE) | Julian R Seward | 1996-2010 |
-| citra | [GPLv2](https://github.com/citra-emu/citra/blob/master/license.txt) | | |
-| devkitARM | BSD License | ? | ? |
-| FreeType Library | [FTL License](http://git.savannah.gnu.org/cgit/freetype/freetype2.git/tree/docs/FTL.TXT) | | |
-| GIFLIB | [MIT](https://github.com/wasamasa/giflib/blob/master/LICENSE) | Vasilij Schneidermann | 2016 |
-| jansson | [MIT](https://github.com/akheron/jansson/blob/master/LICENSE) | Petri Lehtinen | 2009-2016 |
-| libconfig | [LGPLv3](http://www.hyperrealm.com/libconfig/) (x?)or? [LGPLv2](https://github.com/hyperrealm/libconfig/blob/master/COPYING.LIB) | | |
-| libctru | [zlib License](https://github.com/smealum/ctrulib/blob/master/README.md) | | |
-| libexif | [LGPLv2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html) | | |
-| libjpeg-turbo | [3 BSD style licenses](https://github.com/libjpeg-turbo/libjpeg-turbo/blob/master/LICENSE.md)) | <AUTHOR> | <YEAR> |
-| libmad | [GPLv2](http://www.underbit.com/resources/license/gpl) | | |
-| libogg | [BSD-3-Clause](https://github.com/gcp/libogg/blob/master/COPYING) | Xiph.org Foundation | 2002 |
-| libpng | [zlib License](http://www.libpng.org/pub/png/src/libpng-LICENSE.txt) | Glenn Randers-Pehrson | 2000-2002, 2004, 2006-2017 |
-| libxml2 | [MIT](https://opensource.org/licenses/mit-license.html) | | |
-| libxmp-lite | [LGPLv2.1+](https://www.gnu.org/licenses/lgpl.html) | | |
-| mbedtls | [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) | | |
-| sqlite | [Public Domain](https://sqlite.org/copyright.html) | | |
-| tinyxml2 | [zlib](https://github.com/leethomason/tinyxml2/blob/master/readme.md) | | |
-| tremor | [New BSD License](https://git.xiph.org/?p=tremor.git;a=blob;f=COPYING;h=6111c6c5a6b95057e43d36b7c217b073bf5f9b22;hb=HEAD) | Xiph.org Foundation | 2002 |
-| xz | [Public Domain, GPLv2+](https://git.tukaani.org/?p=xz.git;a=blob;f=COPYING) | | |
-| zlib | [zlib License](https://github.com/madler/zlib/blob/master/README)| Jean-loup Gailly and Mark Adler | 1995-2017 |
+The built image contains works from many sources. Please utilize the `apt`
+tools to obtain licenses and sources for included packages. Some of the sources
+of included projects are embedded via git submodules into this project's repo.
+Since not all included works are available via git, each binary release is
+accompanied by a source release on the
+[GitHub releases page](https://github.com/ahoischen/3ds-dev-docker/releases) of
+this project.
+
+The built image contains work from multiple projects, including:
+
+- [The Citra emulator](https://github.com/citra-emu/citra)
+- [devkitARM](https://sourceforge.net/projects/devkitpro/files/devkitARM/)
+- [ctrulib](https://github.com/smealum/ctrulib)
+- [The libraries included in ahoischen/3ds-portlibs](https://github.com/ahoischen/3ds-portlibs)
+- [citro3d](https://github.com/fincs/citro3d)
+- [sf2dlib](https://github.com/xerpi/sf2dlib)
+- [sfillib](https://github.com/xerpi/sfillib)
+- [sftdlib](https://github.com/xerpi/sftdlib)
+- [makerom](https://github.com/profi200/Project_CTR)
+- [bannertool](https://github.com/Steveice10/bannertool)
+
+While the source of those projects has not been modified their execution in
+this environment may introduce differences in behaviour (such as bugs) for
+which their creators are not responsible. Please contact the maintainers of
+this project by opening an Issue on the project's
+[Issue Tracker](https://github.com/ahoischen/3ds-dev-docker/releases) if you
+suspect such a scenario might have arisen.
+
+This project is not in any way affiliated with the creators, contributors,
+copyright holders or other involved entities, unless otherwise stated. Consult
+the provided links and tools (such as `apt-get`) for each project's licenses
+and copyright holders.

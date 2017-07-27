@@ -1,0 +1,12 @@
+ahoischen/3ds-dev  Copyright (C) 2017  Alexander Hoischen
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you
+are welcome to redistribute it under certain conditions. See
+/usr/share/doc/3ds-dev/LICENSE for details. 
+The dockerfile's source is included in that directory too. The sources for other
+software can be obtained via `apt-get source` or
+https://github.com/ahoischen/3ds-dev-docker/releases.
+
+This project is not in any way affiliated with Nintendo, devkitPro or Citra.
+
+Please report bugs in included software to this project's issue tracker instead
+of those of included software.

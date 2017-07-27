@@ -1,6 +1,6 @@
 # Welcome
 
-Hi, thanks for thinking about contributing to this project! Feel free to open
+Hi! Thanks for thinking about contributing to this project! Feel free to open
 issues, pull requests and create forks. 
 
 # Issues
@@ -13,8 +13,9 @@ be a documentation issue.
 
 ## Bugs
 
-This project cannot ensure that every piece of software distributed is
-error-free and up-to-date. You should open an issue when a piece of software
+Some of the bugs you encounter with included software might be caused by this
+project. Please open an issue here if you think that might be the case. You 
+should open an issue when a piece of software
 is missing even though it is said to be included in the README or when it is
 more broken than ususal, e.g. it crashes in the image when it doesn't on your
 machine. Build issues and spelling errors are also bugs.
@@ -59,3 +60,13 @@ TravisCI will automatically run a bunch of tests to make sure that your changes
 haven't broken anything. Your changes can't be merged if they don't work.
 - Try to make your commit messages descriptive. It's sometimes useful to know
 why a change was made and commits are an important tool for that.
+- Don't introduce closed-source software.
+
+# Forking
+
+If you want to fork this project for more than pull requests there are a few
+things to note:
+- `imagefs/motd.3ds-dev` mentions my releases page. You are responsible for
+providing the sources, so please change that.
+- The `.travis.yml` file is setup to push releases to my docker account.
+If you want your releases to work you need to change that.
