@@ -1,20 +1,27 @@
 sudo: required
 
 services:
-    - docker
+- docker
 
 script:
-    - >
-        docker build \
-             -t 3ds-dev \
-            --build-arg git_commit=$TRAVIS_COMMIT \
-            --build-arg build_date=$(date --rfc-3339=seconds | sed 's/ /T/') \
-            --build-arg version_number=${TRAVIS_TAG:-"git-$TRAVIS_COMMIT"} \
-            .
+- build.sh
+- docker run --rm -it 3ds-dev 3ds-dev-selftest
 
 after_success:
-    - if [ "$TRAVIS_TAG" ]; then
-        docker tag 3ds-dev "ahoischen/3ds-dev:$TRAVIS_TAG";
-        docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-        docker push "ahoischen/3ds-dev:$TRAVIS_TAG";
-      fi
+# Push the image if it's a release
+- |
+  if [ "$TRAVIS_TAG" ]; then
+    mkdir ./sources
+    docker tag 3ds-dev "ahoischen/3ds-dev:$TRAVIS_TAG"; 
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; 
+    docker push "ahoischen/3ds-dev:$TRAVIS_TAG";
+  fi
+
+deploy:
+  provider: releases
+  api_key:
+    secure: iT4nsqyEPBdlbxwaX+sn2wLdQvbl51ljSS+4Q/LrgU1HxbqQ5IwoT0TuGsrAZ5rv3+wD4JUi+NJ8Jcm5WA+a4Ng74iSdjga3CXFKjcVDUSN9l2wlNKIRxPzcNeMFX7C28GQN/WqN3lJFFsE5xayQ944bOIrsweMY36NTvLcSrKr5SEvA6XG/n7oJLldHUqh/F5hUlIJTMElPCkF2SD6WXqO+oQkQbZTf21oyT6sFRL2Uf+m4Iz77C1BxzC7ZKYWspe4ci1AB3J6D9yrBp+oj7pXr9Jo5sd/qheei9H/9jyu6xk2NiCd7zphZGG+pHgVQNAyoy6QR3/8fA+X0eaoEAfhsnvHbdAdqtyxy0pvZypuhulZdhyhwmguykWiXnVw8HFcZyEc967zNNUGPegzGpcEyp9Ws+QgSfnRFe+racLanPWfXm/itkb+ZWqSMXVzV5SkYyuRklGpZhXBcRLquHUwzlE4P3m776OnWMrx2RzyDk1x9ny/ADjG9PTdaz5iR2CN/2FtNzlEqhE/iyrYi/nR/maWnNZYsGoL6LFZnR9dqC5YGxNM2ov+FKyb+h6BOw9FiG6xWbHRhOhaPQPzPYAodP4EyOyJ4fLKNrvGV0mNKhmBwftt1dTje9ZyDVnrcUH4t4U5YB4CAOgFCkLT1RNyyRY837EApWYfeXjXpUn0=
+  file: build/sources.tar.gz
+  on:
+    repo: ahoischen/3ds-dev-docker
+    tags: true

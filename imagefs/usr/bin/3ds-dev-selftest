@@ -1,0 +1,4 @@
+#!/bin/bash
+# This script will test compiler and emulator funcionality.
+
+exit 0
