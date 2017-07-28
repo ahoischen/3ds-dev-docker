@@ -82,9 +82,9 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
         libsdl2-2.0-0=2.0.2+dfsg1-6 \
 
         # Required packages for CircleCI
-        libstdc++6/testing \
-        cmake/testing \
+        libstdc++6/stretch \
         unzip && \
+    DEBIAN_FRONTEND=noninteractive sudo apt-get -t jessie-backports install --no-install-recommends --yes cmake && \
     sudo apt-get -y clean && \
 
     # The devkitARM archive contains the folder, so it has to be extracted in $DEVKITPRO, not ARM.
