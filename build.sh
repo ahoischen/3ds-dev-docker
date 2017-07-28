@@ -24,7 +24,7 @@ make -C submodules/3ds-portlibs tar-source
 
 # Copy the sources into a compressed form while excluding the git history to
 # avoid massive bloat.
-tar --exclude=".git" --exclude="./build" -zcvf build/sources.tar.gz ./* ./.travis.yml
+tar --exclude=".git" --exclude="./build" -zcvf build/sources.tar.gz ./* ./.travis.yml &> /dev/null
 cp -r imagefs Dockerfile build
 
 # Build the docker image
