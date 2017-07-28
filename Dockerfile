@@ -49,6 +49,11 @@ RUN REPO=http://cdn-fastly.deb.debian.org && \
 
     true;
 
+ENV DISPLAY=":0" \
+    DEVKITPRO="/opt/devkitPro" \
+    DEVKITARM="/opt/devkitPro/devkitARM" \
+    PATH="/opt/devkitPro/devkitARM/bin:${PATH}"
+    
 USER user
 
 COPY ["imagefs/", "/"]
