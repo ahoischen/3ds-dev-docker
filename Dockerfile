@@ -45,7 +45,7 @@ RUN REPO=http://cdn-fastly.deb.debian.org && \
     apt-get -y clean && \
     useradd -m -s /bin/bash user && \
     echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user && \
-    echo '[ ! -z "$TERM" -a -r /etc/motd ] && cat /etc/motd && cat /etc/motd.3ds-dev' > /etc/bash.rc && \
+    echo '[ ! -z "$TERM" -a -r /etc/motd ] && cat /etc/motd && cat /etc/motd.3ds-dev' >> /etc/bash.bashrc && \
 
     true;
 
