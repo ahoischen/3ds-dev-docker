@@ -10,7 +10,7 @@ build_date=$(date --rfc-3339=seconds | sed 's/ /T/')
 devkitARM_url="https://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r47/devkitARM_r47-x86_64-linux.tar.bz2"
 citra_date="20170724"
 citra_tag="untagged-3441a5634554e85a0b51"
-citra_url="https://github.com/citra-emu/citra-nightly/releases/download/${citra_tag}/citra-linux-${citra_date}-$(git -C submodules/citra rev-parse --short HEAD).tar.xz"
+citra_url="https://github.com/citra-emu/citra-nightly/releases/download/${citra_tag}/citra-linux-${citra_date}-$(git -C submodules/citra rev-parse --short=7 HEAD).tar.xz"
 
 mkdir -p build
 
