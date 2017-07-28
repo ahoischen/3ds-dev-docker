@@ -78,7 +78,7 @@ RUN cp /etc/skel/.xinitrc ~/ && \
     sudo apt-get -y clean && \
 
     mkdir ~/build && \
-    tar -xvzf /usr/share/doc/3ds-dev/sources.tar.gz -C ~/build/ &> /dev/null && \
+    tar -xvzf /usr/share/doc/3ds-dev/sources.tar.gz -C ~/build/ > /dev/null 2>&1 && \
 
     # The devkitARM archive contains the folder, so it has to be extracted in $DEVKITPRO, not ARM.
     sudo -E mkdir -p $DEVKITARM && \
