@@ -57,7 +57,8 @@ COPY ["sources.tar.gz", "/usr/share/doc/3ds-dev/"]
 
 ENV DISPLAY=":0" \
     DEVKITPRO="/opt/devkitPro" \
-    DEVKITARM="/opt/devkitPro/devkitARM"
+    DEVKITARM="/opt/devkitPro/devkitARM" \
+    PATH="/opt/devkitPro/devkitARM/bin:${PATH}"
 
 # These args are not meant to be set from the command line for public builds.
 # They are meant as local variables and should only be changed in this file.
