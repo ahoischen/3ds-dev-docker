@@ -22,3 +22,6 @@
 [submodule "submodules/citra"]
 	path = submodules/citra
 	url = https://github.com/citra-emu/citra.git
+[submodule "submodules/citro3d"]
+	path = submodules/citro3d
+	url = https://github.com/fincs/citro3d

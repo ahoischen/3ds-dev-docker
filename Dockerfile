@@ -49,33 +49,22 @@ RUN REPO=http://cdn-fastly.deb.debian.org && \
 
     true;
 
+USER user
 
 COPY ["imagefs/", "/"]
 
-# Provide project's source
-COPY [".", "/usr/share/doc/3ds-dev/"]
-
-USER user
+COPY ["sources.tar.gz", "/usr/share/doc/3ds-dev/"]
 
 ENV DISPLAY=":0" \
-    HOME="/home/user" \
     DEVKITPRO="/opt/devkitPro" \
-    DEVKITARM="/opt/devkitPro/devkitARM" \
-    CITRA_SDMC="/home/user/.local/share/citra-emu/sdmc"
+    DEVKITARM="/opt/devkitPro/devkitARM"
 
 # These args are not meant to be set from the command line for public builds.
 # They are meant as local variables and should only be changed in this file.
-ARG devkit_arm_url="https://downloads.sourceforge.net/project/devkitpro/devkitARM/devkitARM_r47/devkitARM_r47-x86_64-linux.tar.bz2"
-ARG libctru_url="https://downloads.sourceforge.net/project/devkitpro/libctru/1.3.0/libctru-1.3.0.tar.bz2"
-ARG portlibs_url="https://github.com/ahoischen/3ds-portlibs.git"
-ARG citro3d_url="https://downloads.sourceforge.net/project/devkitpro/citro3d/1.3.0/citro3d-1.3.0.tar.bz2"
-ARG sf2dlib_url="https://github.com/xerpi/sf2dlib.git"
-ARG sfillib_url="https://github.com/xerpi/sfillib.git"
-ARG sftdlib_url="https://github.com/xerpi/sftdlib.git"
-ARG makerom_url="https://github.com/profi200/Project_CTR/releases/download/0.15/makerom_015_ctrtool.zip"
+ARG devkitARM_url
 
 # Install:
-RUN cp /etc/skel/.xinitrc /home/user/ && \
+RUN cp /etc/skel/.xinitrc ~/ && \
     sudo apt-get update && \
     DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends --yes \
         # libsdl2 for citra
@@ -87,25 +76,20 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
     DEBIAN_FRONTEND=noninteractive sudo apt-get -t jessie-backports install --no-install-recommends --yes cmake && \
     sudo apt-get -y clean && \
 
+    mkdir ~/build && \
+    tar -xvzf /usr/share/doc/3ds-dev/sources.tar.gz -C ~/build/ && \
+
     # The devkitARM archive contains the folder, so it has to be extracted in $DEVKITPRO, not ARM.
-    sudo mkdir -p /tmp/citra /usr/bin/ "${DEVKITPRO}/libctru" && \
-    curl -L ${devkit_arm_url} | sudo tar xpjC "${DEVKITPRO}" && \
+    sudo -E mkdir -p $DEVKITARM && \
+    curl -L ${devkitARM_url} | sudo tar xpjC "${DEVKITPRO}" && \
 
-    # Libctru's archive has all files directly at it's root, so it'l be extracted into the libctru folder.
-    curl -L ${libctru_url} | \
-    sudo tar xpvj -C "${DEVKITPRO}/libctru" && \
-
-    # Download makerom and ctrtool.
-    curl -o /tmp/makerom.zip -L "${makerom_url}" && \
-    unzip /tmp/makerom.zip -d /tmp/makerom && \
-    sudo cp /tmp/makerom/Linux_x86_64/* /usr/bin && \
-    rm -r /tmp/makerom* && \
+    sudo -E make -C ~/build/submodules/ctrulib/libctru install && \
 
     # Currently libxml2 is not included. See devkitPro/3ds_portlibs#15 for details.
     # Currently tremor isn't installed, because it threw some error. I might add it
     # back in later.
-    git -C /tmp/ clone "${portlibs_url}" && \
-    sudo -E make -C /tmp/3ds-portlibs \
+    sudo -E make -C ~/build/submodules/3ds-portlibs \
+        GIT=echo \
         zlib \
         install-zlib \
         bzip2 \
@@ -119,56 +103,45 @@ RUN cp /etc/skel/.xinitrc /home/user/ && \
         libogg \
         libpng \
         libxmp-lite \
-        mbedtls-apache \
+        mbedtls \
         tinyxml2 \
         xz \
         install && \
-    sudo rm -rf /tmp/3ds-portlibs && \
 
-    curl -L ${citro3d_url} | \
-    sudo tar xpvj -C "${DEVKITPRO}/libctru" && \
+    sudo -E make -C ~/build/submodules/citro3d install && \
 
-    git -C /tmp/ clone "${sf2dlib_url}" && \
-    sudo -E make -C /tmp/sf2dlib/libsf2d install && \
-    sudo rm -rf /tmp/sf2dlib && \
+    sudo -E make -C ~/build/submodules/sf2dlib/libsf2d install && \
 
-    git -C /tmp/ clone "${sfillib_url}" && \
-    sudo -E make -C /tmp/sfillib/libsfil install && \
-    sudo rm -rf /tmp/sfillib && \
+    sudo -E make -C ~/build/submodules/sfillib/libsfil install && \
 
-    git -C /tmp/ clone "${sftdlib_url}" && \
-    sudo -E make -C /tmp/sftdlib/libsftd install && \
-    sudo rm -rf /tmp/sftdlib && \
+    sudo -E make -C ~/build/submodules/sftdlib/libsftd install && \
 
-    # Install makerom from source.
-    git -C /tmp/ clone "https://github.com/profi200/Project_CTR.git" && \
-    make -C /tmp/Project_CTR/makerom && \
-    sudo mv /tmp/Project_CTR/makerom/makerom /usr/bin && \
-    rm -rf /tmp/Project_CTR && \
+    make -C ~/build/submodules/Project_CTR/makerom && \
+    sudo mv ~/build/submodules/Project_CTR/makerom/makerom /usr/bin && \
 
-    # Install bannertool from source
-    git -C /tmp/ clone --recursive "https://github.com/Steveice10/bannertool.git" && \
-    make -C /tmp/bannertool && \
-    sudo mv /tmp/bannertool/output/linux-x86_64/bannertool /usr/bin && \
-    rm -rf /tmp/bannertool && \
+    make -C ~/build/submodules/bannertool && \
+    sudo mv ~/build/submodules/bannertool/output/linux-x86_64/bannertool /usr/bin && \
 
     true;
 
 # Install citra. Citra's archive contains one folder named after it's current
 # build number. Inside are two executables, a license and a readme. We only care
-# about `citra`, so we'll just copy it into /usr/bin and remove the rest.
+# about `citra`, since we already have those files in the included sources, so 
+# we'll just copy it into /usr/bin and remove the rest.
 # This should stay a separate layer, since citra has nightly builds and new
 # features are frequently added.
-ARG citra_build="citra-linux-20170724-f2f3910"
-ARG citra_tag="untagged-3441a5634554e85a0b51"
-ARG citra_url="https://github.com/citra-emu/citra-nightly/releases/download/${citra_tag}/${citra_build}.tar.xz"
+# We are taking the lazy way out by not compiling citra ourselves to avoid
+# having to keep up with build dependencies.
+ARG citra_url
 
-RUN curl -L ${citra_url} | sudo tar xpvJC /tmp/ && \
-    sudo mv "/tmp/${citra_build}/citra" /usr/bin && \
-    sudo rm -rf "/tmp/${citra_build}" && \
+RUN mkdir -p /tmp/citra && \
+    curl -L ${citra_url} | sudo tar xpvJC /tmp/citra && \
+    sudo mv "/tmp/citra/$(dir /tmp/citra)/citra" /usr/bin && \
+    sudo rm -rf /tmp/citra && \
 
     # Create the working directory. WORKDIR would make it owned by root.
-    mkdir ~/work
+    mkdir ~/work && \
+    sudo rm -rf ~/build
 
 WORKDIR /home/user/work
 
