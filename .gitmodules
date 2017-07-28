@@ -25,3 +25,12 @@
 [submodule "submodules/citro3d"]
 	path = submodules/citro3d
 	url = https://github.com/fincs/citro3d
+[submodule "submodules/3dslink"]
+	path = submodules/3dslink
+	url = https://github.com/devkitPro/3dslink.git
+[submodule "submodules/buildscripts"]
+	path = submodules/buildscripts
+	url = https://github.com/devkitPro/buildscripts.git
+[submodule "submodules/newlib"]
+	path = submodules/newlib
+	url = https://github.com/devkitPro/newlib.git
