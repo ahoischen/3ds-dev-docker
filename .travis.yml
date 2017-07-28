@@ -4,7 +4,7 @@ services:
 - docker
 
 script:
-- build.sh
+- ./build.sh
 - docker run --rm -it 3ds-dev 3ds-dev-selftest
 
 after_success:
