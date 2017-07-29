@@ -128,6 +128,8 @@ RUN cp /etc/skel/.xinitrc ~/ && \
     make -C ~/build/submodules/bannertool && \
     sudo mv ~/build/submodules/bannertool/output/linux-x86_64/bannertool /usr/bin && \
 
+    sudo rm -rf ~/build && \
+
     true;
 
 # Install citra. Citra's archive contains one folder named after it's current
@@ -146,8 +148,7 @@ RUN mkdir -p /tmp/citra && \
     sudo rm -rf /tmp/citra && \
 
     # Create the working directory. WORKDIR would make it owned by root.
-    mkdir ~/work && \
-    sudo rm -rf ~/build
+    mkdir ~/work
 
 WORKDIR /home/user/work
 
